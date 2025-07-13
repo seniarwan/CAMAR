@@ -1,5 +1,5 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/xxxxxx#offline=true&sandboxMode=true)
-# 🕊️🗺️ CAMAR (CA-Markov and Random Forest)
+# 🐦🗺️ CAMAR (CA-Markov and Random Forest)
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC
 
 **Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
