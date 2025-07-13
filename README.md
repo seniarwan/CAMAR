@@ -2,14 +2,14 @@
 # CAMAR (CA-Markov and Random Forest)
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC
 
-**Peneliti**: Seniarwan, dibawah bimbingan Prof. Baba Barus, Prof. Suria D. Tarigan, dan Prof. Agus Buono
+**Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
 
-**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk menyimulasikan dan memproyeksikan perubahan tutupan/penggunaan lahan di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov` dan `Random Forest`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
+**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk menyimulasikan dan memproyeksikan perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov` dan `Random Forest`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Repositori ini berisi notebook eksekusi dan data sampel.
 
 ## Fitur Utama
-Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang adaptif untuk penelitian:
+Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
 
 **Simulasi Dua Mode**:
 
@@ -30,8 +30,20 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang ada
 1. **Penyusunan Data Historis**  
    Kumpulkan peta LULC multi-temporal (misal: tahun `t₀, t₁, t₂`) dalam bentuk raster/grid.  
    Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
+   
+2. **Penyusunan Suitability/Probability Map dengan Random Forest**  
+   Suitability/probability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
+   Model Random Forest digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
 
-2. **Perhitungan Matriks Transisi Markov**  
+   $S_{i, c} = RF_c(X_i)$
+   
+   - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
+   - $RF_c$ = Model Random Forest kelas $c$  
+   - $X_i$ = Vektor fitur/prediktor di piksel $i$
+   
+   Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas.   
+
+3. **Perhitungan Matriks Transisi Markov**  
    Hitung matriks transisi probabilitas antar kelas lahan berdasarkan dua waktu historis.  
       
    $$P_{i,j} = \frac{N_{i \rightarrow j}}{\sum_{k} N_{i \rightarrow k}}$$
@@ -48,19 +60,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang ada
    - $t_{target}$ = Tahun prediksi  
    - $t_B$ = Tahun akhir data historis
 
-6. **Penyusunan Suitability Map dengan Random Forest**  
-   Suitability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
-   Model Random Forest digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
-
-   $S_{i, c} = RF_c(X_i)$
-   
-   - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
-   - $RF_c$ = Model Random Forest kelas $c$  
-   - $X_i$ = Vektor fitur/prediktor di piksel $i$
-   
-   Hasil prediksi $S$ dinormalisasi ke [0, 1] per kelas.
-
-8. **Perhitungan Efek Spasial (Neighborhood/Contiguity)**  
+5. **Perhitungan Efek Spasial (Neighborhood/Contiguity)**  
    Menggunakan kernel Moore 5x5:
 
    ```
@@ -78,14 +78,14 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang ada
    
    Di mana $\delta$ adalah offset kecil untuk menghindari nol.
 
-7. **Simulasi Cellular Automata (CA)**  
+6. **Simulasi Cellular Automata (CA)**  
    Untuk setiap piksel, peluang transisi kelas dihitung berdasarkan:
    
    $P'{i,j} = P{i,j} \cdot S_{i,j} \cdot C_{i,j}$
 
    Probabilitas dinormalisasi dan proses update dilakukan untuk setiap waktu prediksi.
 
-9. **Validasi dan Visualisasi**  
+7. **Validasi dan Visualisasi**  
    Hasil prediksi diverifikasi menggunakan metrik spasial: Cohen’s Kappa, Jaccard, F1-Score, dan analisis perubahan spasial.
 
  **WORK IN PROGRESS**
