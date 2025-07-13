@@ -40,15 +40,16 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
 ## 🧠 Metodologi
 
 1. **Penyusunan Data Historis**  
-   Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
-   Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
+   - Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
+   - Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
    
 2. **Penyusunan Suitability/Probability Map dengan Random Forest**  
    Suitability/probability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
    Model Random Forest digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
 
    $S_{i, c} = RF_c(X_i)$
-   
+
+   dimana:
    - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
    - $RF_c$ = Model Random Forest kelas $c$  
    - $X_i$ = Vektor fitur/prediktor di piksel $i$
@@ -59,7 +60,8 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
    Hitung matriks transisi probabilitas antar kelas lahan berdasarkan dua waktu historis.  
       
    $$P_{i,j} = \frac{N_{i \rightarrow j}}{\sum_{k} N_{i \rightarrow k}}$$
-   
+
+   dimana:
    - $P_{i,j}$ = Probabilitas perubahan dari kelas $i$ ke kelas $j$  
    - $N_{i \rightarrow j}$ = Jumlah piksel berpindah dari $i$ ke $j$
 
@@ -67,7 +69,8 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
    Untuk prediksi masa depan, matriks transisi diinterpolasi linier berdasarkan dua periode historis.
      
    $$\mathbf{P}_{\mathrm{proj}} = \mathbf{P}_B + \frac{(\mathbf{P}_B - \mathbf{P}_A)}{\Delta t{A \rightarrow B}} \cdot (t{\mathrm{target}} - t_B)$$
-   
+
+   dimana:
    - $\mathbf{P}_A$, $\mathbf{P}_B$ = Matriks transisi dari dua periode historis  
    - $t_{target}$ = Tahun prediksi  
    - $t_B$ = Tahun akhir data historis
@@ -88,7 +91,7 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
    
    $C_{i,c} = \text{Convolve2D}(\mathbb{I}(y = c), K_{5x5}) + \delta$
    
-   Di mana $\delta$ adalah offset kecil untuk menghindari nol.
+   dimana $\delta$ adalah offset kecil untuk menghindari nol.
 
 6. **Simulasi Cellular Automata (CA)**  
    Untuk setiap piksel, peluang transisi kelas dihitung berdasarkan:
