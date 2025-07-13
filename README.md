@@ -1,5 +1,5 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/xxxxxx#offline=true&sandboxMode=true)
-# CAMAR (CA-Markov and Random Forest)
+# 🕊️🗺️ CAMAR (CA-Markov and Random Forest)
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC
 
 **Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
@@ -8,26 +8,36 @@
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Repositori ini berisi notebook eksekusi dan data sampel.
 
-## Fitur Utama
+## ⚙️ Fitur Utama
 Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
 
-- **Simulasi Dua Mode**:
+🔹 **Simulasi Dua Mode**:
 
    - **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario business-as-usual (tanpa intervensi).
    
    - **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
 
-- **Alur Kerja Validasi Multi-Tahap**: Sebelum melakukan prediksi, model secara otomatis menjalankan validasi jangka pendek dan/atau jangka panjang terhadap data historis untuk mengukur keandalannya menggunakan metrik standar (Cohen's Kappa, F1-Score, dll.).
+🔹 **Alur Kerja Validasi Multi-Tahap**
 
-- **Proyeksi Berantai Multi-Tahun**: Mampu menghasilkan prediksi untuk beberapa tahun target di masa depan secara berurutan (misalnya, 2030, 2035, 2040), di mana hasil dari satu periode menjadi input untuk periode berikutnya.
+Sebelum melakukan prediksi, model secara otomatis menjalankan validasi jangka pendek dan/atau jangka panjang terhadap data historis untuk mengukur keandalannya menggunakan metrik standar (Cohen's Kappa, F1-Score, dll.).
 
-- **Konfigurasi Fleksibel**: Pengguna dapat dengan mudah menyesuaikan periode waktu historis, tahun validasi, dan tahun target prediksi hanya dengan mengubah variabel konfigurasi di notebook utama.
+🔹 **Proyeksi Berantai Multi-Tahun**
 
-- **Struktur Modular**: Logika inti simulasi dipisahkan ke dalam modul pustaka `camar`, sementara notebook `CAMAR_simulation.ipynb` berfungsi sebagai antarmuka yang mudah digunakan.
+Mampu menghasilkan prediksi untuk beberapa tahun target di masa depan secara berurutan (misalnya, 2030, 2035, 2040), di mana hasil dari satu periode menjadi input untuk periode berikutnya.
 
-- **Komputasi Paralel Otomatis (Multiprocessing)**: Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster menjadi tile kecil (misal 128×128 piksel). Setiap tile diproses paralel menggunakan seluruh core CPU, kemudian hasilnya digabungkan kembali secara seamless. Mekanisme padding diterapkan untuk menghindari artefak di batas tile, sehingga hasil tetap konsisten secara spasial.
+🔹 **Konfigurasi Fleksibel**
 
-## Metodologi
+Pengguna dapat dengan mudah menyesuaikan periode waktu historis, tahun validasi, dan tahun target prediksi hanya dengan mengubah variabel konfigurasi di notebook utama.
+
+🔹 **Struktur Modular**
+
+Logika inti simulasi dipisahkan ke dalam modul pustaka `camar`, sementara notebook `CAMAR_simulation.ipynb` berfungsi sebagai antarmuka yang mudah digunakan.
+
+🔹 **Komputasi Paralel Otomatis (Multiprocessing)**
+
+Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster menjadi tile kecil (misal 128×128 piksel). Setiap tile diproses paralel menggunakan seluruh core CPU, kemudian hasilnya digabungkan kembali secara seamless. Mekanisme padding diterapkan untuk menghindari artefak di batas tile, sehingga hasil tetap konsisten secara spasial.
+
+## 🧠 Metodologi
 
 1. **Penyusunan Data Historis**  
    Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
