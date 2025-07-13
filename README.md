@@ -41,7 +41,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang can
    - $RF_c$ = Model Random Forest kelas $c$  
    - $X_i$ = Vektor fitur/prediktor di piksel $i$
    
-   Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas.   
+   Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas LULC.   
 
 3. **Perhitungan Matriks Transisi Markov**  
    Hitung matriks transisi probabilitas antar kelas lahan berdasarkan dua waktu historis.  
