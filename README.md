@@ -30,7 +30,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang can
 ## Metodologi
 
 1. **Penyusunan Data Historis**  
-   Kumpulkan peta LULC multi-temporal (misal: tahun `t₀, t₁, t₂`) dalam bentuk raster/grid.  
+   Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
    Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
    
 2. **Penyusunan Suitability/Probability Map dengan Random Forest**  
