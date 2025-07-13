@@ -42,7 +42,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang ada
 4. **Interpolasi Matriks Transisi**  
    Untuk prediksi masa depan, matriks transisi diinterpolasi linier berdasarkan dua periode historis.
      
-   $\mathbf{P}_{\mathrm{proj}} = \mathbf{P}_B + \frac{(\mathbf{P}_B - \mathbf{P}_A)}{\Delta t_{A \rightarrow B}} \cdot (t_{\mathrm{target}} - t_B)$
+   $$\mathbf{P}_{\mathrm{proj}} = \mathbf{P}_B + \frac{(\mathbf{P}_B - \mathbf{P}_A)}{\Delta t{A \rightarrow B}} \cdot (t{\mathrm{target}} - t_B)$$
    
    - $\mathbf{P}_A$, $\mathbf{P}_B$ = Matriks transisi dari dua periode historis  
    - $t_{target}$ = Tahun prediksi  
@@ -63,15 +63,13 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang ada
 8. **Perhitungan Efek Spasial (Neighborhood/Contiguity)**  
    Menggunakan kernel Moore 5x5:
 
-   \[
-   \begin{bmatrix}
-   0 & 0 & 1 & 0 & 0 \\
-   0 & 1 & 1 & 1 & 0 \\
-   1 & 1 & 1 & 1 & 1 \\
-   0 & 1 & 1 & 1 & 0 \\
-   0 & 0 & 1 & 0 & 0
-   \end{bmatrix}
-   \]
+   ```
+   0  0  1  0  0 
+   0  1  1  1  0
+   1  1  1  1  1
+   0  1  1  1  0
+   0  0  1  0  0
+   ```
 
 
    Efek kontiguitas dihitung melalui konvolusi:
