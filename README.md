@@ -11,19 +11,21 @@ Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptas
 ## Fitur Utama
 Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
 
-**Simulasi Dua Mode**:
+- **Simulasi Dua Mode**:
 
-- **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario business-as-usual (tanpa intervensi).
+   - **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario business-as-usual (tanpa intervensi).
+   
+   - **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
 
-- **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
+- **Alur Kerja Validasi Multi-Tahap**: Sebelum melakukan prediksi, model secara otomatis menjalankan validasi jangka pendek dan/atau jangka panjang terhadap data historis untuk mengukur keandalannya menggunakan metrik standar (Cohen's Kappa, F1-Score, dll.).
 
-**Alur Kerja Validasi Multi-Tahap**: Sebelum melakukan prediksi, model secara otomatis menjalankan validasi jangka pendek dan/atau jangka panjang terhadap data historis untuk mengukur keandalannya menggunakan metrik standar (Cohen's Kappa, F1-Score, dll.).
+- **Proyeksi Berantai Multi-Tahun**: Mampu menghasilkan prediksi untuk beberapa tahun target di masa depan secara berurutan (misalnya, 2030, 2035, 2040), di mana hasil dari satu periode menjadi input untuk periode berikutnya.
 
-**Proyeksi Berantai Multi-Tahun**: Mampu menghasilkan prediksi untuk beberapa tahun target di masa depan secara berurutan (misalnya, 2030, 2035, 2040), di mana hasil dari satu periode menjadi input untuk periode berikutnya.
+- **Konfigurasi Fleksibel**: Pengguna dapat dengan mudah menyesuaikan periode waktu historis, tahun validasi, dan tahun target prediksi hanya dengan mengubah variabel konfigurasi di notebook utama.
 
-**Konfigurasi Fleksibel**: Pengguna dapat dengan mudah menyesuaikan periode waktu historis, tahun validasi, dan tahun target prediksi hanya dengan mengubah variabel konfigurasi di notebook utama.
+- **Struktur Modular**: Logika inti simulasi dipisahkan ke dalam modul pustaka `camar`, sementara notebook `CAMAR_simulation.ipynb` berfungsi sebagai antarmuka yang mudah digunakan.
 
-**Struktur Modular**: Logika inti simulasi dipisahkan ke dalam modul pustaka `camar`, sementara notebook `CAMAR_simulation.ipynb` berfungsi sebagai antarmuka yang mudah digunakan.
+- **Komputasi Paralel Otomatis (Multiprocessing)**: Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster menjadi tile kecil (misal 128×128 piksel). Setiap tile diproses paralel menggunakan seluruh core CPU, kemudian hasilnya digabungkan kembali secara seamless. Mekanisme padding diterapkan untuk menghindari artefak di batas tile, sehingga hasil tetap konsisten secara spasial.
 
 ## Metodologi
 
