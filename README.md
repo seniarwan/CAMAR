@@ -103,4 +103,7 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
 7. **Validasi dan Visualisasi**  
    Hasil prediksi diverifikasi menggunakan metrik spasial: Cohen’s Kappa, Jaccard, F1-Score, dan analisis perubahan spasial.
 
- **WORK IN PROGRESS**
+## 🗺️ Contoh Hasil
+![alt text](result.png)
+
+**WORK IN PROGRESS**
