@@ -89,7 +89,7 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
 
    Efek kontiguitas dihitung melalui konvolusi:
    
-   $C_{i,c} = \text{Convolve2D}(\mathbb{I}(y = c), K_{5x5}) + \delta$
+   $C_{i,c} = \text{Convolve2D}(\mathbb{I}(y = c), K_{5 \times 5}) + \delta$
    
    dimana $\delta$ adalah offset kecil untuk menghindari nol.
 
