@@ -33,7 +33,7 @@ Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap d
 
 🔹 **Otomatisasi Tahun Target**:
 
-   - Tahun target prediksi dihasilkan otomatis berdasarkan pola interval data historis Anda.
+   - Tahun target prediksi dihasilkan otomatis berdasarkan pola interval data historis.
    - Pipeline akan menghitung interval rata-rata antar data historis dan secara otomatis menghasilkan daftar tahun prediksi ke depan, misal `[2030, 2035, 2040]`, dst, tanpa perlu diisi manual.
 
 🔹 **Konfigurasi Fleksibel dan Adaptif**
