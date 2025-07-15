@@ -8,7 +8,7 @@
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Pada notebook telah tersedia data sampel yang diakses langsung melalui gdrive dan model yang dapat langsung dijalankan.
 
-## ⚙️ Fitur Utama
+## 🚀 Fitur Utama
 Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
 
 🔹 **Simulasi Dua Mode**:
@@ -17,25 +17,37 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang can
    
    - **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
 
-🔹 **Alur Kerja Validasi Multi-Tahap**
+🔹 **Dukungan Multi-Metode Proyeksi Matriks Transisi**:
 
-Sebelum melakukan prediksi, model secara otomatis menjalankan validasi jangka pendek dan/atau jangka panjang terhadap data historis untuk mengukur keandalannya menggunakan metrik standar (Cohen's Kappa, F1-Score, dll.).
+   - `Linear`: Proyeksi standar berbasis dua peta historis.
 
-🔹 **Proyeksi Berantai Multi-Tahun**
+   - `Logarithmic/Damped`: Proyeksi tren dengan faktor peredaman logaritmik, cocok untuk meminimalkan bias trend ekstrim di masa depan.
 
-Mampu menghasilkan prediksi untuk beberapa tahun target di masa depan secara berurutan (misalnya, 2030, 2035, 2040), di mana hasil dari satu periode menjadi input untuk periode berikutnya.
+   - `Quadratic Regression`: Proyeksi berbasis regresi kuadratik jika tersedia tiga atau lebih peta historis, untuk menangkap pola perubahan yang tidak linier.
 
-🔹 **Konfigurasi Fleksibel**
+   - `Auto-Switch`: Pipeline dapat memilih metode otomatis sesuai jumlah data historis atau pengaturan `TREND_METHOD`.
 
-Pengguna dapat dengan mudah menyesuaikan periode waktu historis, tahun validasi, dan tahun target prediksi hanya dengan mengubah variabel konfigurasi di notebook utama.
+🔹 **Validasi Otomatis**
 
-🔹 **Struktur Modular**
+Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap dengan metrik akurasi spasial (`Kappa`, `Jaccard`, `Precision/Recall/F1` per kelas, dsb).
 
-Logika inti simulasi dipisahkan ke dalam modul pustaka `camar`, sementara notebook `CAMAR_simulation.ipynb` berfungsi sebagai antarmuka yang mudah digunakan.
+🔹 **Otomatisasi Tahun Target**:
+
+   - Tahun target prediksi dihasilkan otomatis berdasarkan pola interval data historis Anda.
+   - Pipeline akan menghitung interval rata-rata antar data historis dan secara otomatis menghasilkan daftar tahun prediksi ke depan, misal `[2030, 2035, 2040]`, dst, tanpa perlu diisi manual.
+
+🔹 **Konfigurasi Fleksibel dan Adaptif**
+
+   - Konfigurasi pipeline mudah disesuaikan lewat parameter di notebook/script.
+   - Semua hasil simulasi, log, dan matriks transisi disimpan otomatis.
 
 🔹 **Komputasi Paralel Otomatis (Multiprocessing)**
 
-Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster menjadi tile kecil (misal 128×128 piksel). Setiap tile diproses paralel menggunakan seluruh core CPU, kemudian hasilnya digabungkan kembali secara seamless. Mekanisme padding diterapkan untuk menghindari artefak di batas tile, sehingga hasil tetap konsisten secara spasial.
+   - Implementasi fungsi kritis dengan `Cython` untuk komputasi sangat cepat di Linux/Colab, otomatis fallback ke `Numba` jika Cython tidak tersedia.
+   - Dukungan paralelisasi tile/grid berbasis multiprocessing.
+
+🔹 **Integrasi Random Forest**:
+Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest` untuk membangkitkan `suitability map` secara otomatis. [in progress]
 
 ## 🧠 Metodologi
 
@@ -104,6 +116,91 @@ Untuk efisiensi pada data raster besar, CAMAR secara otomatis membagi raster men
    Hasil prediksi diverifikasi menggunakan metrik spasial: Cohen’s Kappa, Jaccard, F1-Score, dan analisis perubahan spasial.
 
 ## 🗺️ Contoh Hasil
-![alt text](result.png)
+
+**Log Simulasi**
+
+```
+Logging diaktifkan ke file output_data/simulation.log
+Memuat data historis...
+Jumlah kelas terdeteksi: 11
+Tahun target yang diperbolehkan: [2030, 2035]
+
+==================================================
+TAHAP 1: VALIDASI MODEL
+==================================================
+
+--- Memvalidasi prediksi untuk 2024 dari 2020 ---
+Menggunakan tren dari periode 2015-2020
+
+--- Menjalankan Simulasi untuk Target: 2024 ---
+Processing Tiles for 2024: 100%|██████████| 3234/3234 [03:20<00:00, 16.12it/s]
+Merging Tiles for 2024: 100%|██████████| 3234/3234 [00:11<00:00, 284.41it/s]
+Simulasi mode evolusi selesai. Hasil disimpan di: output_data/predicted_map_evolutionary_2024.tif
+
+--- Menghitung Akurasi Model ---
+Cohen's Kappa: 0.7922
+Overall Jaccard Score: 0.7241
+Overall Precision: 0.8436
+Overall Recall: 0.8363
+Overall F1-Score: 0.8362
+
+Metrik per Kelas:
+╒════════════════════════╤═════════════╤══════════╤════════════╤═══════════╕
+│ Kelas                  │   Precision │   Recall │   F1-Score │   Support │
+╞════════════════════════╪═════════════╪══════════╪════════════╪═══════════╡
+│ Hutan                  │    0.958655 │ 0.975901 │   0.967201 │    814607 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Rawa                   │    0.623131 │ 0.838926 │   0.715103 │       745 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Mangrove               │    0.871737 │ 0.68138  │   0.764893 │     46761 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Semak Belukar          │    0.749866 │ 0.756829 │   0.753331 │    110922 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Perkebunan             │    0.899147 │ 0.926685 │   0.912709 │   2201983 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Pertanian Lahan Kering │    0.707016 │ 0.885589 │   0.786291 │   2734121 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Sawah                  │    0.900291 │ 0.834941 │   0.866385 │   3869760 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Lahan Terbangun        │    0.826431 │ 0.713616 │   0.765892 │   3376364 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Tambak                 │    0.854491 │ 0.942652 │   0.896409 │    199170 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Tubuh Air              │    0.924518 │ 0.677699 │   0.782098 │     93872 │
+├────────────────────────┼─────────────┼──────────┼────────────┼───────────┤
+│ Lainnya                │    0.774553 │ 0.581306 │   0.664158 │     69829 │
+╘════════════════════════╧═════════════╧══════════╧════════════╧═══════════╛
+
+==================================================
+TAHAP 2: PREDIKSI LULC MASA DEPAN
+==================================================
+
+--- Memulai prediksi untuk tahun 2030 dari 2024 ---
+Matriks Transisi Proyeksi untuk 2030 disimpan di output_data/projected_matrix_2030.csv
+
+--- Menjalankan Simulasi untuk Target: 2030 ---
+Processing Tiles for 2030: 100%|██████████| 3234/3234 [03:20<00:00, 16.11it/s]
+Merging Tiles for 2030: 100%|██████████| 3234/3234 [00:11<00:00, 291.08it/s]Simulasi mode evolusi selesai. Hasil disimpan di: output_data/predicted_map_evolutionary_2030.tif
+
+--- Memulai prediksi untuk tahun 2035 dari 2030 ---
+Matriks Transisi Proyeksi untuk 2035 disimpan di output_data/projected_matrix_2035.csv
+
+--- Menjalankan Simulasi untuk Target: 2035 ---
+
+Processing Tiles for 2035: 100%|██████████| 3234/3234 [02:56<00:00, 18.29it/s]
+Merging Tiles for 2035: 100%|██████████| 3234/3234 [00:11<00:00, 285.33it/s]
+Simulasi mode evolusi selesai. Hasil disimpan di: output_data/predicted_map_evolutionary_2035.tif
+
+Proses Selesai.
+```
+**Grafik Perubahan Luas**
+
+![alt text](result_chart.png)
+
+**Peta Hasil Prediksi**  
+
+![alt text](result_map.png)
+
+
 
 **WORK IN PROGRESS**
