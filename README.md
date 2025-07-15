@@ -47,6 +47,7 @@ Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap d
    - Dukungan paralelisasi tile/grid berbasis multiprocessing.
 
 🔹 **Integrasi Random Forest**:
+
 Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest` untuk membangkitkan `suitability map` secara otomatis. [in progress]
 
 ## 🧠 Metodologi
