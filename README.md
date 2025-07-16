@@ -48,7 +48,7 @@ Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap d
 
 🔹 **Integrasi Machine Learning**:
 
-Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest` untuk membangkitkan `suitability map` secara otomatis. [in progress]
+Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest, Logistic Regression, SVM, dll` untuk membangkitkan `suitability map` secara otomatis. [in progress]
 
 ## 🧠 Metodologi
 
@@ -58,7 +58,7 @@ Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Fore
    
 2. **Penyusunan Suitability/Probability Map**  
    Suitability/probability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
-   Model Machine Learning (ML; seperti Random Forest, SVM, dll) digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
+   Model Machine Learning (ML; seperti Random Forest, Logistic Regression, SVM, dll) digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
 
    $S_{i, c} = ML_c(X_i)$
 
