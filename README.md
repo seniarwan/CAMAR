@@ -1,10 +1,10 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/XXXXXXXXXXXXXXXXX#offline=true&sandboxMode=true)
-# 🐦🗺️ CAMAR (CA-Markov and Random Forest)
+# 🐦🗺️ CAMAR (CA-Markov for Land Change Simulation)
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC
 
 **Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
 
-**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov` dan `Random Forest`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
+**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `CA-Markov for Land Change Simulation`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Pada notebook telah tersedia data sampel yang diakses langsung melalui gdrive dan model yang dapat langsung dijalankan.
 
@@ -46,7 +46,7 @@ Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap d
    - Implementasi fungsi kritis dengan `Cython` untuk komputasi sangat cepat di Linux/Colab, otomatis fallback ke `Numba` jika Cython tidak tersedia.
    - Dukungan paralelisasi tile/grid berbasis multiprocessing.
 
-🔹 **Integrasi Random Forest**:
+🔹 **Integrasi Machine Learning**:
 
 Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest` untuk membangkitkan `suitability map` secara otomatis. [in progress]
 
