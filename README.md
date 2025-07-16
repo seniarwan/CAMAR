@@ -1,10 +1,10 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/XXXXXXXXXXXXXXXXX#offline=true&sandboxMode=true)
-# 🐦🗺️ CAMAR (CA-Markov for Land Change Simulation)
+# 🐦🗺️ CAMAR (CA-Markov for Land Change Simulator)
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC
 
 **Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
 
-**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov for Land Change Simulation`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
+**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov for Land Change Simulator`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Pada notebook telah tersedia data sampel yang diakses langsung melalui gdrive dan model yang dapat langsung dijalankan.
 
@@ -56,15 +56,15 @@ Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Fore
    - Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
    - Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
    
-2. **Penyusunan Suitability/Probability Map dengan Random Forest**  
+2. **Penyusunan Suitability/Probability Map**  
    Suitability/probability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
-   Model Random Forest digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
+   Model Machine Learning (ML; seperti Random Forest, SVM, dll) digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
 
-   $S_{i, c} = RF_c(X_i)$
+   $S_{i, c} = ML_c(X_i)$
 
    dimana:
    - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
-   - $RF_c$ = Model Random Forest kelas $c$  
+   - $RF_c$ = Model ML kelas $c$  
    - $X_i$ = Vektor fitur/prediktor di piksel $i$
    
    Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas LULC.   
