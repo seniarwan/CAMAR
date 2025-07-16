@@ -27,7 +27,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang can
 
    - `Linear`: Proyeksi standar berbasis dua peta historis.
 
-   - `Logarithmic/Damped`: Proyeksi tren dengan faktor peredaman logaritmik, cocok untuk meminimalkan bias trend ekstrim di masa depan.
+   - `Logarithmic`: Proyeksi tren dengan faktor logaritmik, cocok untuk meminimalkan bias trend ekstrim di masa depan.
 
    - `Quadratic Regression`: Proyeksi berbasis regresi kuadratik jika tersedia tiga atau lebih peta historis, untuk menangkap pola perubahan yang tidak linier.
 
