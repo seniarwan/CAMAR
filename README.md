@@ -64,7 +64,7 @@ Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Fore
 
    dimana:
    - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
-   - $RF_c$ = Model ML kelas $c$  
+   - $ML_c$ = Model ML kelas $c$  
    - $X_i$ = Vektor fitur/prediktor di piksel $i$
    
    Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas LULC.   
