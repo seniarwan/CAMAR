@@ -19,7 +19,7 @@ Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang can
 
 🔹 **Simulasi Dua Mode**:
 
-   - **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario business-as-usual (tanpa intervensi).
+   - **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario *business-as-usual* (tanpa intervensi).
    
    - **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
 
