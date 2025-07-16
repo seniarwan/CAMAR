@@ -1,8 +1,14 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/XXXXXXXXXXXXXXXXX#offline=true&sandboxMode=true)
-# 🐦🗺️ CAMAR (CA-Markov for Land Change Simulator)
+# 🐦🗺️ CAMAR Project 
 **Proyek Penelitian S3 PSL-IPB**: Model Simulasi Prediksi Perubahan LULC (Land Use/Land Cover)
 
-**Peneliti**: Seniarwan, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ), [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao), dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)
+**Peneliti**: Seniarwan<sup>1</sup>, dibawah bimbingan [Prof. Baba Barus](https://scholar.google.co.id/citations?hl=id&user=zOtjie8AAAAJ)<sup>2</sup>, [Prof. Suria D. Tarigan](https://scholar.google.com/citations?user=ukdzSPsAAAAJ&hl=id&oi=ao)<sup>2</sup>, dan [Prof. Agus Buono](https://scholar.google.com/citations?user=CDIv9k0AAAAJ&hl=en)<sup>3</sup>
+
+   <sup>1</sup> *Mahasiswa S3, Sekolah Pascasarjana, Program Studi Ilmu Pengelolaan Sumberdaya ALam dan Lingkungan, IPB University (psl24seniarwan@apps.ipb.ac.id).*
+   
+   <sup>2</sup> *Departemen Ilmu Tanah dan Sumberdaya Lahan, Fakultas Pertanian, IPB University, Indonesia*
+   
+   <sup>3</sup> *Departemen Ilmu Komputer, Sekolah Sains Data, Matematika, dan Informatika (SSMI), IPB University, Indonesia*
 
 **CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov for Land Change Simulator`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
 
