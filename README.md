@@ -10,117 +10,58 @@
    
    <sup>3</sup> *Departemen Ilmu Komputer, Sekolah Sains Data, Matematika, dan Informatika (SSMI), IPB University, Indonesia*
 
-**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan Python untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Markov for Land Change Prediction`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
+**CAMAR** adalah sebuah kerangka kerja pemodelan spasial yang dikembangkan dengan _Python_ untuk simulasi dan prediksi perubahan LULC di masa depan. Nama model ini dipilih sebagai akronim dari `Cellular Automata-Monte Carlo-Markov for Land Change Prediction`, sekaligus sebagai metafora atas kemampuan burung Camar dalam membaca perubahan lingkungan dan beradaptasi secara spasial.
+
+Secara teknis, model ini mengimplementasikan metode inti `Cellular Automata-Markov (CA-Markov)` yang disempurnakan dengan simulasi `Monte Carlo` untuk memproyeksikan alokasi ruang di masa depan secara realistis.
 
 Proyek ini dirancang untuk menjadi model fleksibel, tangguh, dan mudah diadaptasi untuk berbagai skenario penelitian, terutama dalam konteks perencanaan tata ruang, analisis dampak bencana/lingkungan, dan studi urbanisasi. Pada notebook telah tersedia data sampel yang diakses langsung melalui gdrive dan model yang dapat langsung dijalankan.
 
-## 🚀 Fitur Utama
-Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
-
-🔹 **Simulasi Dua Mode**:
-
-   - **Mode Berbasis Tren (Evolusioner)**: Mensimulasikan perubahan lahan berdasarkan tren historis, cocok untuk skenario *business-as-usual* (tanpa intervensi).
-   
-   - **Mode Alokasi Berbasis Permintaan (Demand-Driven)**: Mensimulasikan perubahan dengan mematuhi batasan spasial (misalnya, kawasan lindung, LP2B, rencana tata ruang), ideal untuk analisis kebijakan.
-
-🔹 **Dukungan Multi-Metode Proyeksi Matriks Transisi**:
-
-   - `Linear`: Proyeksi standar berbasis dua peta historis.
-
-   - `Logarithmic`: Proyeksi tren dengan faktor logaritmik, cocok untuk meminimalkan bias trend ekstrim di masa depan.
-
-   - `Quadratic Regression`: Proyeksi berbasis regresi kuadratik jika tersedia tiga atau lebih peta historis, untuk menangkap pola perubahan yang tidak linier.
-
-   - `Auto-Switch`: Pipeline dapat memilih metode otomatis sesuai jumlah data historis atau pengaturan `TREND_METHOD`.
-
-🔹 **Validasi Otomatis**
-
-Otomatis melakukan validasi model untuk tahun-tahun historis tertentu, lengkap dengan metrik akurasi spasial (`Kappa`, `Jaccard`, `Precision/Recall/F1` per kelas, dsb).
-
-🔹 **Otomatisasi Tahun Target**:
-
-   - Tahun target prediksi dihasilkan otomatis berdasarkan pola interval data historis.
-   - Pipeline akan menghitung interval rata-rata antar data historis dan secara otomatis menghasilkan daftar tahun prediksi ke depan, misal `[2030, 2035, 2040]`, dst, tanpa perlu diisi manual.
-
-🔹 **Konfigurasi Fleksibel dan Adaptif**
-
-   - Konfigurasi pipeline mudah disesuaikan lewat parameter di notebook/script.
-   - Semua hasil simulasi, log, dan matriks transisi disimpan otomatis.
-
-🔹 **Komputasi Paralel Otomatis (Multiprocessing)**
-
-   - Implementasi fungsi kritis dengan `Cython` untuk komputasi sangat cepat di Linux/Colab, otomatis fallback ke `Numba` jika Cython tidak tersedia.
-   - Dukungan paralelisasi tile/grid berbasis multiprocessing.
-
-🔹 **Integrasi Machine Learning**:
-
-Pipeline dapat dikombinasikan dengan model Machine Learning seperti `Random Forest, Logistic Regression, SVM, dll` untuk membangkitkan `suitability map` secara otomatis. [in progress]
-
 ## 🧠 Metodologi
 
-1. **Penyusunan Data Historis**  
-   - Kumpulkan peta LULC multi-temporal (misal: tahun `t0, t1, t2`) dalam bentuk raster/grid.  
-   - Siapkan data prediktor spasial (variabel geobiofisik-lingkungan, sosial ekonomi, dll) untuk *suitability map*.
+Alur kerja CAMAR dibagi menjadi dua tahap utama: proyeksi kuantitas perubahan secara non-spasial, diikuti oleh alokasi perubahan secara spasial menggunakan mesin Cellular Automata.
+
+**Tahap 1: Proyeksi Kuantitas Perubahan (Rantai Markov)**
+
+Tahap ini bertujuan untuk menentukan jumlah total lahan yang akan bertransisi dari satu kelas ke kelas lainnya.
+
+- **Analisis Historis**: Model menghitung matriks transisi historis antara beberapa periode waktu (misalnya, 2015-2020 dan 2020-2024) dari data peta LULC yang ada.
+
+- **Proyeksi Tren**: Probabilitas transisi dari matriks historis tersebut kemudian diproyeksikan ke tahun target di masa depan. CAMAR mendukung beberapa metode proyeksi, termasuk regresi linear dan kuadratik.
+
+- **Output**: Hasil dari tahap ini adalah sebuah Matriks Transisi Proyeksi yang mendefinisikan berapa banyak sel (atau hektar) yang diharapkan akan berubah dari setiap kelas ke setiap kelas lainnya.
+
+**Tahap 2: Alokasi Spasial (Cellular Automata-Monte Carlo)**
+
+Setelah mengetahui jumlah perubahan, tahap ini menentukan lokasi perubahan tersebut. Ini adalah inti dari mesin simulasi CAMAR. Untuk setiap sel di dalam lanskap, probabilitas perubahan total dihitung berdasarkan empat komponen utama:
+
+- **Matriks Transisi Proyeksi**: Memberikan probabilitas dasar perubahan untuk setiap kelas.
+
+- **Peta Kesesuaian Lahan (Suitability Map)**: Peta eksternal yang merepresentasikan faktor pendorong spasial (misalnya, jarak ke jalan, kemiringan lereng, aksesibilitas). Peta ini memberi tahu model lokasi mana yang secara inheren lebih mungkin untuk berubah.
+
+- **Efek Tetangga (Neighborhood Effect)**: Mensimulasikan prinsip bahwa perubahan cenderung terjadi di dekat area yang sudah berubah sebelumnya (misalnya, kota baru cenderung tumbuh di pinggiran kota yang sudah ada).
+
+- **Seleksi "Roda Roulette" Monte Carlo**: Alih-alih selalu memilih kelas dengan probabilitas tertinggi (deterministik), CAMAR menggunakan metode Monte Carlo untuk memilih status akhir sel secara stokastik. Ini memastikan bahwa setiap kelas memiliki kemungkinan untuk dipilih secara proporsional terhadap probabilitasnya, menghasilkan pola pertumbuhan yang lebih organik dan realistis.
+
+## 🚀 Fitur Utama
+
+Model CAMAR dilengkapi dengan serangkaian fitur yang menjadikannya alat yang canggih dan adaptif untuk penelitian:
+
+- **Simulasi Stokastik Modern**: Menggunakan inti CA-Monte Carlo untuk menangkap ketidakpastian dan menghasilkan pola spasial yang lebih alami, menghindari hasil yang kaku dan deterministik.
+
+- **Performa Tinggi**: Fungsi simulasi inti ditulis dalam _Cython_, menghasilkan kecepatan yang tinggi dan memungkinkan simulasi lanskap besar dalam waktu yang wajar.
+
+- **Kontrol Inersia**: Menyertakan parameter `change_threshold` yang memungkinkan pengguna untuk mengontrol inersia sistem, mencegah perubahan acak pada sel dengan probabilitas rendah.
+
+- **Reproduktifitas Ilmiah**: Mendukung penggunaan `random_seed` untuk memastikan bahwa hasil simulasi stokastik dapat direproduksi sepenuhnya, yang krusial untuk penelitian dan publikasi.
+
+- **Dua Mode Simulasi**:
+
+    - `evolutionary`: Mode stokastik (CA-MC) untuk simulasi pertumbuhan organik.
    
-2. **Penyusunan Suitability/Probability Map**  
-   Suitability/probability map adalah raster yang menunjukkan kecocokan setiap piksel untuk tiap kelas.  
-   Model Machine Learning (ML; seperti Random Forest, Logistic Regression, SVM, dll) digunakan untuk memetakan hubungan antara piksel (dengan variabel prediktor $X$) dan kelas lahan target:
+    - `demand_driven`: Mode deterministik berbasis peringkat untuk alokasi berbasis target yang pasti.
 
-   $S_{i, c} = ML_c(X_i)$
+- **Modular dan Dapat Diperluas**: Dibangun sebagai paket _Python_, CAMAR mudah diintegrasikan ke dalam alur kerja penelitian yang lebih besar, misalnya dengan notebook _Jupyter/Colab_.
 
-   dimana:
-   - $S_{i, c}$ = Skor suitability piksel $i$ untuk kelas $c$  
-   - $ML_c$ = Model ML kelas $c$  
-   - $X_i$ = Vektor fitur/prediktor di piksel $i$
-   
-   Hasil prediksi $S$ ditunjukkan dengan nilai probabilitas [0, 1] per kelas LULC.   
-
-3. **Perhitungan Matriks Transisi Markov**  
-   Hitung matriks transisi probabilitas antar kelas lahan berdasarkan dua waktu historis.  
-      
-   $$P_{i,j} = \frac{N_{i \rightarrow j}}{\sum_{k} N_{i \rightarrow k}}$$
-
-   dimana:
-   - $P_{i,j}$ = Probabilitas perubahan dari kelas $i$ ke kelas $j$  
-   - $N_{i \rightarrow j}$ = Jumlah piksel berpindah dari $i$ ke $j$
-
-4. **Interpolasi Matriks Transisi**  
-   Untuk prediksi masa depan, matriks transisi diinterpolasi linier berdasarkan dua periode historis.
-     
-   $$\mathbf{P}_{\mathrm{proj}} = \mathbf{P}_B + \frac{(\mathbf{P}_B - \mathbf{P}_A)}{\Delta t{A \rightarrow B}} \cdot (t{\mathrm{target}} - t_B)$$
-
-   dimana:
-   - $\mathbf{P}_A$, $\mathbf{P}_B$ = Matriks transisi dari dua periode historis  
-   - $t_{target}$ = Tahun prediksi  
-   - $t_B$ = Tahun akhir data historis
-
-5. **Perhitungan Efek Spasial (Neighborhood/Contiguity)**  
-   Menggunakan kernel Moore 5x5:
-
-   ```
-   0  0  1  0  0 
-   0  1  1  1  0
-   1  1  1  1  1
-   0  1  1  1  0
-   0  0  1  0  0
-   ```
-
-
-   Efek kontiguitas dihitung melalui konvolusi:
-   
-   $C_{i,c} = \text{Convolve2D}(\mathbb{I}(y = c), K_{5 \times 5}) + \delta$
-   
-   dimana $\delta$ adalah offset kecil untuk menghindari nol.
-
-6. **Simulasi Cellular Automata (CA)**  
-   Untuk setiap piksel, peluang transisi kelas dihitung berdasarkan:
-   
-   $P'{i,j} = P{i,j} \cdot S_{i,j} \cdot C_{i,j}$
-
-   Probabilitas dinormalisasi dan proses update dilakukan untuk setiap waktu prediksi.
-
-7. **Validasi dan Visualisasi**  
-   Hasil prediksi diverifikasi menggunakan metrik spasial: Cohen’s Kappa, Jaccard, F1-Score, dan analisis perubahan spasial.
 
 ## 🗺️ Contoh Hasil
 
