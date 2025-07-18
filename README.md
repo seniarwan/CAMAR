@@ -36,7 +36,7 @@ Setelah mengetahui jumlah perubahan, tahap ini menentukan lokasi perubahan terse
 
 - **Matriks Transisi Proyeksi**: Memberikan probabilitas dasar perubahan untuk setiap kelas.
 
-- **Peta Kesesuaian Lahan (Suitability Map)**: Peta eksternal yang merepresentasikan faktor pendorong spasial (misalnya, jarak ke jalan, kemiringan lereng, aksesibilitas). Peta ini memberi tahu model lokasi mana yang secara inheren lebih mungkin untuk berubah.
+- **Peta Kesesuaian Lahan (Suitability Map)**: Peta eksternal yang merepresentasikan faktor pendorong spasial (misalnya, faktor topografi: elevasi, kemiringan lereng, faktor aksesibilitas, faktor sosial-ekonomi, dll). Peta ini memberi tahu model lokasi mana yang secara inheren lebih mungkin untuk berubah.
 
 - **Efek Tetangga (Neighborhood Effect)**: Mensimulasikan prinsip bahwa perubahan cenderung terjadi di dekat area yang sudah berubah sebelumnya (misalnya, kota baru cenderung tumbuh di pinggiran kota yang sudah ada).
 
